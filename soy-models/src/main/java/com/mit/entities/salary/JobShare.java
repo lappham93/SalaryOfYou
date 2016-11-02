@@ -11,6 +11,7 @@ public class JobShare {
 	private String country;
 	private String companyCountry;
 	private double monthlySalary;
+	private int status;
 	private long createTime;
 	private long updateTime;
 	
@@ -19,7 +20,7 @@ public class JobShare {
 	}
 
 	public JobShare(long id, long jobCategoryId, long jobId, int yearExperience, String skill, int skillLevel,
-			String city, String country, String companyCountry, double monthlySalary, long createTime, long updateTime) {
+			String city, String country, String companyCountry, double monthlySalary, int status, long createTime, long updateTime) {
 		super();
 		this.id = id;
 		this.jobCategoryId = jobCategoryId;
@@ -31,6 +32,7 @@ public class JobShare {
 		this.country = country;
 		this.companyCountry = companyCountry;
 		this.monthlySalary = monthlySalary;
+		this.status = status;
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 	}
@@ -113,6 +115,14 @@ public class JobShare {
 
 	public void setMonthlySalary(double monthlySalary) {
 		this.monthlySalary = monthlySalary;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public long getCreateTime() {

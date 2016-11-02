@@ -11,24 +11,24 @@ import com.mit.constants.MongoErrorCode;
 import com.mit.dao.CommonDAO;
 import com.mit.dao.MongoDBParse;
 import com.mit.dao.mid.MIdGenLongDAO;
-import com.mit.entities.salary.JobCategory;
+import com.mit.entities.salary.Job;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
-public class JobCategoryDAO extends CommonDAO {
+public class JobDAO extends CommonDAO {
 
-	private final Logger _logger = LoggerFactory.getLogger(JobCategoryDAO.class);
+	private final Logger _logger = LoggerFactory.getLogger(JobDAO.class);
 	private static Lock _lock = new ReentrantLock();
-	private static JobCategoryDAO _instance;
+	private static JobDAO _instance;
 
-	private String TABLE_NAME = "job_category";
+	private String TABLE_NAME = "job";
 
-	public static JobCategoryDAO getInstance() {
+	public static JobDAO getInstance() {
 		if (_instance == null) {
 			_lock.lock();
 			try {
 				if (_instance == null) {
-					_instance = new JobCategoryDAO();
+					_instance = new JobDAO();
 				}
 			} finally {
 				_lock.unlock();
@@ -38,15 +38,15 @@ public class JobCategoryDAO extends CommonDAO {
 		return _instance;
 	}
 
-	private JobCategoryDAO() {
+	private JobDAO() {
 	}
 
 	public String getTableName() {
 		return this.TABLE_NAME;
 	}
 
-	public JobCategory getById(long id) {
-		JobCategory comment = null;
+	public Job getById(long id) {
+		Job comment = null;
 		if (dbSource != null) {
 			try {
 				Document objFinder = new Document("_id", id);
@@ -62,7 +62,7 @@ public class JobCategoryDAO extends CommonDAO {
 		return comment;
 	}
 
-	public int insert(JobCategory msg) {
+	public int insert(Job msg) {
 		int rs = MongoErrorCode.NOT_CONNECT;
 		if (dbSource != null) {
 			try {
@@ -82,7 +82,7 @@ public class JobCategoryDAO extends CommonDAO {
 		return rs;
 	}
 
-	public int update(JobCategory msg) {
+	public int update(Job msg) {
 		int rs = MongoErrorCode.NOT_CONNECT;
 		if (dbSource != null) {
 			try {
@@ -149,21 +149,20 @@ public class JobCategoryDAO extends CommonDAO {
 		return rs;
 	}
 
-	private class MongoMapper extends MongoDBParse<JobCategory> {
+	private class MongoMapper extends MongoDBParse<Job> {
 
 		@Override
-		public JobCategory parseObject(Document doc) {
-			JobCategory ss = new JobCategory(doc.getLong("_id"), doc.getString("name"), doc.getString("desc"), doc.getInteger("status"),
+		public Job parseObject(Document doc) {
+			Job ss = new Job(doc.getLong("_id"), doc.getLong("jobCategoryId"), doc.getString("name"), doc.getInteger("status"),
 					doc.getDate("createTime").getTime(), doc.getDate("updateTime").getTime());
-
 			return ss;
 		}
 
 		@Override
-		public Document toDocument(JobCategory obj) {
+		public Document toDocument(Job obj) {
 			Document doc = new Document("_id", obj.getId())
+					.append("jobCategoryId", obj.getJobCategoryId())
 					.append("name", obj.getName())
-					.append("desc", obj.getDesc())
 					.append("status", obj.getStatus());
 
 			return doc;

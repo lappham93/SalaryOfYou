@@ -11,24 +11,24 @@ import com.mit.constants.MongoErrorCode;
 import com.mit.dao.CommonDAO;
 import com.mit.dao.MongoDBParse;
 import com.mit.dao.mid.MIdGenLongDAO;
-import com.mit.entities.salary.JobCategory;
+import com.mit.entities.salary.JobShare;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
-public class JobCategoryDAO extends CommonDAO {
+public class JobShareDAO extends CommonDAO {
 
-	private final Logger _logger = LoggerFactory.getLogger(JobCategoryDAO.class);
+	private final Logger _logger = LoggerFactory.getLogger(JobShareDAO.class);
 	private static Lock _lock = new ReentrantLock();
-	private static JobCategoryDAO _instance;
+	private static JobShareDAO _instance;
 
-	private String TABLE_NAME = "job_category";
+	private String TABLE_NAME = "job_share";
 
-	public static JobCategoryDAO getInstance() {
+	public static JobShareDAO getInstance() {
 		if (_instance == null) {
 			_lock.lock();
 			try {
 				if (_instance == null) {
-					_instance = new JobCategoryDAO();
+					_instance = new JobShareDAO();
 				}
 			} finally {
 				_lock.unlock();
@@ -38,15 +38,15 @@ public class JobCategoryDAO extends CommonDAO {
 		return _instance;
 	}
 
-	private JobCategoryDAO() {
+	private JobShareDAO() {
 	}
 
 	public String getTableName() {
 		return this.TABLE_NAME;
 	}
 
-	public JobCategory getById(long id) {
-		JobCategory comment = null;
+	public JobShare getById(long id) {
+		JobShare comment = null;
 		if (dbSource != null) {
 			try {
 				Document objFinder = new Document("_id", id);
@@ -62,7 +62,7 @@ public class JobCategoryDAO extends CommonDAO {
 		return comment;
 	}
 
-	public int insert(JobCategory msg) {
+	public int insert(JobShare msg) {
 		int rs = MongoErrorCode.NOT_CONNECT;
 		if (dbSource != null) {
 			try {
@@ -82,7 +82,7 @@ public class JobCategoryDAO extends CommonDAO {
 		return rs;
 	}
 
-	public int update(JobCategory msg) {
+	public int update(JobShare msg) {
 		int rs = MongoErrorCode.NOT_CONNECT;
 		if (dbSource != null) {
 			try {
@@ -149,21 +149,28 @@ public class JobCategoryDAO extends CommonDAO {
 		return rs;
 	}
 
-	private class MongoMapper extends MongoDBParse<JobCategory> {
+	private class MongoMapper extends MongoDBParse<JobShare> {
 
 		@Override
-		public JobCategory parseObject(Document doc) {
-			JobCategory ss = new JobCategory(doc.getLong("_id"), doc.getString("name"), doc.getString("desc"), doc.getInteger("status"),
-					doc.getDate("createTime").getTime(), doc.getDate("updateTime").getTime());
-
+		public JobShare parseObject(Document doc) {
+			JobShare ss = new JobShare(doc.getLong("_id"), doc.getLong("jobCategoryId"), doc.getLong("jobId"), doc.getInteger("yearExperience"), 
+					doc.getString("skill"), doc.getInteger("skillLevel"), doc.getString("city"), doc.getString("country"), doc.getString("companyCountry"), 
+					doc.getDouble("monthlySalary"), doc.getInteger("status"), doc.getDate("createTime").getTime(), doc.getDate("updateTime").getTime());
 			return ss;
 		}
 
 		@Override
-		public Document toDocument(JobCategory obj) {
+		public Document toDocument(JobShare obj) {
 			Document doc = new Document("_id", obj.getId())
-					.append("name", obj.getName())
-					.append("desc", obj.getDesc())
+					.append("jobCategoryId", obj.getJobCategoryId())
+					.append("jobId", obj.getJobId())
+					.append("yearExperience", obj.getYearExperience())
+					.append("skill", obj.getSkill())
+					.append("skillLevel", obj.getSkillLevel())
+					.append("city", obj.getCity())
+					.append("country", obj.getCountry())
+					.append("companyCountry", obj.getCompanyCountry())
+					.append("monthlySalary", obj.getMonthlySalary())
 					.append("status", obj.getStatus());
 
 			return doc;

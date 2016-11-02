@@ -1,22 +1,24 @@
 package com.mit.entities.salary;
 
-public class Job {
+public abstract class SalaryStatistics {
 	private long id;
-	private long jobCategoryId;
-	private String name;
+	private int type;
+	private double mean;
+	private long shareCount;
 	private int status;
 	private long createTime;
 	private long updateTime;
 	
-	public Job() {
+	public SalaryStatistics() {
 		super();
 	}
 
-	public Job(long id, long jobCategoryId, String name, int status, long createTime, long updateTime) {
+	public SalaryStatistics(long id, int type, double mean, long shareCount, int status, long createTime, long updateTime) {
 		super();
 		this.id = id;
-		this.jobCategoryId = jobCategoryId;
-		this.name = name;
+		this.type = type;
+		this.mean = mean;
+		this.shareCount = shareCount;
 		this.status = status;
 		this.createTime = createTime;
 		this.updateTime = updateTime;
@@ -30,20 +32,28 @@ public class Job {
 		this.id = id;
 	}
 
-	public long getJobCategoryId() {
-		return jobCategoryId;
+	public int getType() {
+		return type;
 	}
 
-	public void setJobCategoryId(long jobCategoryId) {
-		this.jobCategoryId = jobCategoryId;
+	public void setType(int type) {
+		this.type = type;
 	}
 
-	public String getName() {
-		return name;
+	public double getMean() {
+		return mean;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMean(double mean) {
+		this.mean = mean;
+	}
+
+	public long getShareCount() {
+		return shareCount;
+	}
+
+	public void setShareCount(long shareCount) {
+		this.shareCount = shareCount;
 	}
 
 	public int getStatus() {

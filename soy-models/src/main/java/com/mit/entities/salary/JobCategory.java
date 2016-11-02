@@ -4,6 +4,7 @@ public class JobCategory {
 	private long id;
 	private String name;
 	private String desc;
+	private int status;
 	private long createTime;
 	private long updateTime;
 	
@@ -11,11 +12,12 @@ public class JobCategory {
 		super();
 	}
 
-	public JobCategory(long id, String name, String desc, long createTime, long updateTime) {
+	public JobCategory(long id, String name, String desc, int status, long createTime, long updateTime) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.desc = desc;
+		this.status = status;
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 	}
@@ -42,6 +44,14 @@ public class JobCategory {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public long getCreateTime() {

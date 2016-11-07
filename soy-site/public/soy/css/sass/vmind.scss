@@ -1,0 +1,65 @@
+@mixin border-radius($radius) {
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+	border-radius: $radius;	
+}
+
+@import "bootstrap";
+@import "vmind/vm-menu";
+@import "vmind/font-awesome";
+@import "vmind/swipe-menu";
+@import "fancybox/jquery.fancybox";
+@import "vmind/layout";
+@import "bxslider/jquery.bxslider";
+@import "animate/animate";
+@import "vmind/768-979";
+
+.section.cart-section{
+	>.navbar-nav {
+		>li{
+			>a {
+				padding: 8px 15px;
+			}
+			&.store {
+				>a {
+					padding: 0 15px;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 979px) and (min-width: 768px) {
+	.navbar-store {
+		display: block !important;
+	}
+}
+
+.banner {
+	.navbar-left {
+		float: left !important;
+		min-height: 100px;
+	}	
+	.navbar-store {
+		position: absolute;
+		top: 50px;
+		right: 0;
+		text-align: right;
+		>li>a{
+			padding-top: 5px;
+			padding-bottom: 5px;			
+		}
+	}
+}
+
+@media (max-width: 767px) {
+	.banner .navbar-store {
+		top: 30px;
+	}	
+}
+
+@media (max-width: 349px) {
+	.logo img {
+		max-width: 200px;
+	}	
+}

@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_id": "bconnect-f50b",
+    "project_number": "346360027410",
+    "name": "bConnect"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346360027410:android:935ec15b05cc84c5",
+        "client_id": "android:com.mit.bconnect",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.mit.bconnect",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346360027410-9v9lomb50do39t0tioa7ppqdt3113phi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mit.bconnect",
+            "certificate_hash": "71942AA7EEA9DA790717C93678230789CBED3695"
+          }
+        },
+        {
+          "client_id": "346360027410-eivvo238m7dcoio31968f1s55qhk9a1f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 1,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 2
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

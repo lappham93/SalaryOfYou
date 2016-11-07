@@ -12,12 +12,6 @@ public class SalaryModel {
 	
 	private SalaryModel(){}
 	
-	public Map<String, Object> getJobStat(long jobId) {
-		Map<String, Object> rs = new HashMap<>();
-		//TODO
-		return rs;
-	}
-	
 	public Map<String, Object> shareJob(long jobCategoryId, long jobId, int yearExperience, String skill, String city, String country, String companyCountry,
 			double salary) {
 		Map<String, Object> rs = new HashMap<>();
@@ -44,7 +38,14 @@ public class SalaryModel {
 		int err = 0;
 		JobShare share = JobShareDAO.getInstance().getById(shareJobId);
 		if (share != null) {
-			//jobId, yearExperience, skillLevel
+			double meanSalary = StatisticsModel.Instance.getMeanSal(share.getJobId(), share.getYearExperience(), share.getSkillLevel());
+			double jobMeanSalary = StatisticsModel.Instance.getMeanSal(share.getJobId());
+			double experienceMeanSalary = StatisticsModel.Instance.getMeanSal(share.getYearExperience());
+			double placeMeanSalary = StatisticsModel.Instance.getMeanSal(share.getCity(), share.getCountry());
+			statistics.put("allMS", meanSalary);
+			statistics.put("jobMS", jobMeanSalary);
+			statistics.put("experienceMS", experienceMeanSalary);
+			statistics.put("placeMS", placeMeanSalary);
 		} else {
 			err = -1;
 		}

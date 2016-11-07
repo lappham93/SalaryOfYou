@@ -61,11 +61,12 @@ public class SalaryStatisticsDAO extends CommonDAO {
 						.append("yearExperience", params.get("yearExperience"))
 						.append("skillLevel", params.get("skillLevel"));
 				} else if (type == SalaryStatisticsType.JOB.getValue()) {
-					
+					objFinder.append("jobId", params.get("jobId"));
 				} else if (type == SalaryStatisticsType.EXPERIENCE.getValue()) {
-					
+					objFinder.append("yearExperience", params.get("yearExperience"));
 				} else if (type == SalaryStatisticsType.PLACE.getValue()) {
-					
+					objFinder.append("city", params.get("city"))
+						.append("country", params.get("country"));
 				}
 				Document doc = dbSource.getCollection(TABLE_NAME).find(objFinder).first();
 				if (doc != null) {
@@ -77,6 +78,35 @@ public class SalaryStatisticsDAO extends CommonDAO {
 		}
 
 		return comment;
+	}
+	
+	public double getMeanSalaryByAttr(int type, Map<String, Object> params) {
+		double rs = 0.0;
+		if (dbSource != null) {
+			try {
+				Document objFinder = new Document("type", type);
+				if (type == SalaryStatisticsType.ALL.getValue()) {
+					objFinder.append("jobId", params.get("jobId"))
+						.append("yearExperience", params.get("yearExperience"))
+						.append("skillLevel", params.get("skillLevel"));
+				} else if (type == SalaryStatisticsType.JOB.getValue()) {
+					objFinder.append("jobId", params.get("jobId"));
+				} else if (type == SalaryStatisticsType.EXPERIENCE.getValue()) {
+					objFinder.append("yearExperience", params.get("yearExperience"));
+				} else if (type == SalaryStatisticsType.PLACE.getValue()) {
+					objFinder.append("city", params.get("city"))
+						.append("country", params.get("country"));
+				}
+				Document doc = dbSource.getCollection(TABLE_NAME).find(objFinder).first();
+				if (doc != null) {
+					rs = doc.getDouble("mean");
+				}
+			} catch (final Exception e) {
+				_logger.error("getMeanSalaryByAttr ", e);
+			}
+		}
+
+		return rs;
 	}
 
 	public SalaryStatistics getById(long id) {

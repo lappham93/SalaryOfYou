@@ -1,0 +1,87 @@
+@mixin keyframes($animationName) {
+	@-webkit-keyframes #{$animationName} {
+		@content;
+	}
+	@-moz-keyframes #{$animationName} {
+		@content;
+	}
+	@-o-keyframes #{$animationName} {
+		@content;
+	}
+	@keyframes #{$animationName} {
+		@content;
+	}
+}
+
+@mixin animation_name($name) {
+	-webkit-animation-name: $name;
+	-moz-animation-name: $name;
+	-o-animation-name: $name;
+	animation-name: $name;
+}
+
+@mixin animation_duration($duration) {
+	-webkit-animation-duration: $duration;
+	-moz-animation-duration: $duration;
+	-o-animation-duration: $duration;
+	animation-duration: $duration;
+}
+
+@mixin animation_iteration($iteration) {
+	-webkit-animation-iteration-count: $iteration;
+	-moz-animation-iteration-count: $iteration;
+	-o-animation-iteration-count: $iteration;
+	animation-iteration-count: $iteration;
+}
+
+@mixin animation_direction($direction) {
+	-webkit-animation-direction: $direction;
+	-moz-animation-direction: $direction;
+	-o-animation-direction: $direction;
+	animation-direction: $direction;
+}
+
+@mixin animate($name, $duration, $iteration, $direction) {
+	-webkit-animation-duration: $duration;
+	-moz-animation-duration: $duration;
+	-o-animation-duration: $duration;
+	animation-duration: $duration;
+	-webkit-animation-iteration-count: $iteration;
+	-moz-animation-iteration-count: $iteration;
+	-o-animation-iteration-count: $iteration;
+	animation-iteration-count: $iteration;
+	-webkit-animation-name: $name;
+	-moz-animation-name: $name;
+	-o-animation-name: $name;
+	animation-name: $name;
+	-webkit-animation-direction: $direction;
+	-moz-animation-direction: $direction;
+	-o-animation-direction: $direction;
+	animation-direction: $direction;
+}
+
+.z-animated {
+	@include animation_duration(3s);
+	animation-duration: 1s;
+	animation-fill-mode: both;
+}
+
+.animated {
+	animation-duration: 1s;
+	animation-fill-mode: both;
+}
+
+.animated.infinite {
+	animation-iteration-count: infinite;
+}
+
+.animated.hinge {
+	animation-duration: 2s;
+}
+
+.animated.flipOutX,
+.animated.flipOutY,
+.animated.bounceIn,
+.animated.bounceOut{
+	animation-duration: .75s;
+}

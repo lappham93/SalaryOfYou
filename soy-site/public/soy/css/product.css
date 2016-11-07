@@ -1,0 +1,179 @@
+#default_gallery {
+    margin-bottom: 30px
+}
+
+#default_gallery .image-thumb {
+    padding: 0 1em 0 0;
+    float: left;
+    width: 16%
+}
+
+#default_gallery .image {
+    padding-right: 1px;
+    float: left;
+    width: 84%;
+    overflow: hidden;
+    background: none;
+    border: 1px solid #DDD;
+    margin-bottom: 1px
+}
+
+#default_gallery .image img {
+    width: auto;
+    vertical-align: top;
+    width: 100% !important;
+    height: auto !important;
+    display: block;
+    position: relative !important
+}
+
+#default_gallery .bx-wrapper {
+    margin: 0 !important;
+    padding: 0
+}
+
+#default_gallery .bx-wrapper .bx-viewport {
+    background-color: transparent
+}
+
+#default_gallery #image-additional {
+    margin: 0;
+    padding: 0
+}
+
+#default_gallery #image-additional li {
+    float: none;
+    list-style: none;
+    margin-bottom: 5px
+}
+
+#default_gallery .image-thumb img {
+    background-color: #fff;
+    width: 100%;
+    border: 2px solid #DDD
+}
+
+.product-title {
+    color: #0ca3c6
+}
+
+.price-section {
+    margin-bottom: 15px
+}
+
+.price-section .price, .price-section .price-new {
+    font-size: 31px;
+    color: #0ca3c6;
+    display: inline-block
+}
+
+.price-section .price-old {
+    text-decoration: line-through;
+    color: #b0c5ca
+}
+
+.btn-list li {
+    width: 50%
+}
+
+.btn-list .wish-list {
+    float: left
+}
+
+.btn-list .compare {
+    float: right;
+    padding-right: 0
+}
+
+.btn-list button {
+    font-size: 14px !important
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    font-family: 'Lora', serif;
+    margin: 10px 0 20px
+}
+
+h1 {
+    font-size: 33px
+}
+
+h3 {
+    font-size: 21px;
+    text-transform: uppercase
+}
+
+.product-section_title {
+    text-align: center;
+    margin-bottom: 2em
+}
+
+.quickview_description iframe, .product-desc iframe {
+    width: 40% !important;
+    float: left;
+    margin-right: 2em
+}
+
+.product-section {
+    margin-bottom: 3em
+}
+
+.product-reviews .review-item {
+    margin-bottom: 2em;
+    padding-bottom: 2em
+}
+
+.review-form-title {
+    text-align: center
+}
+
+.product-review-form {
+    display: none
+}
+
+.product-thumb {
+    margin-bottom: 30px;
+    position: relative
+}
+
+.product-thumb .image {
+    text-align: center;
+    margin-bottom: 20px
+}
+
+.product-thumb .image a {
+    display: block
+}
+
+.product-thumb .image img {
+    margin-left: auto;
+    margin-right: auto
+}
+
+.price, .price-section {
+    line-height: 120%;
+    color: #0ca3c6;
+    font-size: 24px;
+    padding-bottom: 10px
+}
+
+.product_page .price-old {
+    color: #b0c5ca
+}
+
+.related-products h4 a {
+    color: #6d6d6d;
+    font-weight: bold;
+    font-size: 15px
+}
+
+.product-info .product-section span, .product-info .product-section a {
+    color: #0ca3c6
+}
+
+.product-info > .rating-section, .product-info > .price-section {
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ddd
+}

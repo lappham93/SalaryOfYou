@@ -7,6 +7,7 @@ public class JobShare {
 	private int yearExperience;
 	private String skill;
 	private int skillLevel;
+	private int certificate;
 	private String city;
 	private String country;
 	private String companyCountry;
@@ -19,7 +20,7 @@ public class JobShare {
 		super();
 	}
 
-	public JobShare(long id, long jobCategoryId, long jobId, int yearExperience, String skill, int skillLevel,
+	public JobShare(long id, long jobCategoryId, long jobId, int yearExperience, String skill, int skillLevel, int certificate,
 			String city, String country, String companyCountry, double monthlySalary, int status, long createTime, long updateTime) {
 		super();
 		this.id = id;
@@ -28,6 +29,7 @@ public class JobShare {
 		this.yearExperience = yearExperience;
 		this.skill = skill;
 		this.skillLevel = skillLevel;
+		this.certificate = certificate;
 		this.city = city;
 		this.country = country;
 		this.companyCountry = companyCountry;
@@ -83,6 +85,14 @@ public class JobShare {
 
 	public void setSkillLevel(int skillLevel) {
 		this.skillLevel = skillLevel;
+	}
+
+	public int getCertificate() {
+		return certificate;
+	}
+
+	public void setCertificate(int certificate) {
+		this.certificate = certificate;
 	}
 
 	public String getCity() {

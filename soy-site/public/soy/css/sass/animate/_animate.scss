@@ -1,0 +1,105 @@
+// INDEX OF ANIMATIONS
+// This is a port of Den Eden's Animate.css, converted for SASS.
+// Source: https://daneden.me/animate/
+//
+// @import this index into your project.
+// Comment out categories below to remove them from your project.
+// Or, @import specific partials (e.g. @import "_attention/_bounce";
+//
+//-----------------------------------------------------------------------
+
+// Always required
+@import
+  "_properties";
+
+// Import the animations
+
+@import
+  //"_attention-seekers/_bounce",
+  //"_attention-seekers/_flash",
+  //"_attention-seekers/_pulse",
+  //"_attention-seekers/_rubberBand",
+  //"_attention-seekers/_shake",
+  //"_attention-seekers/_swing",
+  //"_attention-seekers/_tada",
+  
+  //"_bouncing-entrances/_bounceIn",
+  //"_bouncing-entrances/_bounceInDown",
+  //"_bouncing-entrances/_bounceInLeft",
+  //"_bouncing-entrances/_bounceInRight",
+  //"_bouncing-entrances/_bounceInUp",
+  
+  //"_bouncing-exits/_bounceOut",
+  //"_bouncing-exits/_bounceOutDown",
+  //"_bouncing-exits/_bounceOutLeft",
+  //"_bouncing-exits/_bounceOutRight",
+  //"_bouncing-exits/_bounceOutUp",
+  
+  //"_fading-entrances/all",
+  //"_fading-entrances/fadeIn",
+  //"_fading-entrances/fadeInDown",
+  //"_fading-entrances/fadeInDownBig",
+  //"_fading-entrances/fadeInLeft",
+  //"_fading-entrances/fadeInLeftBig",
+  //"_fading-entrances/fadeInRight",
+  //"_fading-entrances/fadeInRightBig"
+  //"_fading-entrances/fadeInUp",
+  //"_fading-entrances/fadeInUpBig",
+  
+  //"_fading-exits/fadeOut",
+  //"_fading-exits/fadeOutDown",
+  //"_fading-exits/fadeOutDownBig",
+  //"_fading-exits/fadeOutLeft",
+  //"_fading-exits/fadeOutLeftBig",
+  //"_fading-exits/fadeOutRight",
+  //"_fading-exits/fadeOutRightBig",
+  //"_fading-exits/fadeOutUp",
+  //"_fading-exits/fadeOutUpBig",
+  
+  //"_flippers/flip",
+  //"_flippers/flipInX",
+  //"_flippers/flipInY",
+  //"_flippers/flipOutX",
+  //"_flippers/flipOutY",  
+  
+  //"_lightspeed/_lightSpeedIn",
+  //"_lightspeed/_lightSpeedOut",
+  
+  //"_rotating-entrances/rotateIn",
+  //"_rotating-entrances/rotateInDownLeft",
+  //"_rotating-entrances/rotateInDownRight",
+  //"_rotating-entrances/rotateInUpLeft",
+  //"_rotating-entrances/rotateInUpRight",
+  
+  //"_rotating-exits/rotateOut",
+  //"_rotating-exits/rotateOutDownLeft",
+  //"_rotating-exits/rotateOutDownRight",
+  //"_rotating-exits/rotateOutUpLeft",
+  //"_rotating-exits/rotateOutUpRight",
+  
+  "_sliding-entrances/slideInDown",
+  //"_sliding-entrances/slideInLeft",
+  //"_sliding-entrances/slideInRight",
+  "_sliding-entrances/slideInUp",  
+  
+  "_sliding-exits/slideOutDown",
+  //"_sliding-exits/slideOutLeft",
+  //"_sliding-exits/slideOutRight",
+  "_sliding-exits/slideOutUp",  
+  
+  //"_specials/hinge",
+  //"_specials/rollIn",
+  //"_specials/rollOut",  
+  
+  "_zooming-entrances/zoomIn"
+  //"_zooming-entrances/zoomInDown",
+  //"_zooming-entrances/zoomInLeft",
+  //"_zooming-entrances/zoomInRight",
+  //"_zooming-entrances/zoomInUp",  
+  
+  //"_zooming-exits/zoomOut",
+  //"_zooming-exits/zoomOutDown",
+  //"_zooming-exits/zoomOutLeft",
+  //"_zooming-exits/zoomOutRight",
+  //"_zooming-exits/zoomOutUp"  
+;

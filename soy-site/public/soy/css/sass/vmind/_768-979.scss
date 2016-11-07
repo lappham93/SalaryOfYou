@@ -1,0 +1,27 @@
+@media (min-width: 768px) and (max-width: 979px) {
+	#page-nav {
+		display: none;
+	}
+	.topbar {
+		.social-nav {
+			margin-left: 100px;
+		}
+	}
+	.logo {
+		img {
+			margin-left: 65px;
+		}
+	}
+	.navbar-wap {
+		display: block !important;
+	}
+	.cart-section {
+		display: none;
+	}
+	.swipe-control {
+		display: block !important;
+	}
+	#home-banner {
+		margin-top: 60px;
+	}
+}

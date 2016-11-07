@@ -1,0 +1,182 @@
+.navbar-wap {
+	background-color: #333;
+	border-bottom: 1px solid #131313;
+	.navbar-header {
+		float: none;
+	}
+	a {
+		font-size: 20px
+	}
+	.navbar-nav {
+		margin: 0;
+		float: left;
+		>li {
+			float: left;
+			>a {
+				color: #C3C3C3;
+				padding-top: 15px;
+				padding-bottom: 15px;
+				text-transform: uppercase;
+				&.shopping-cart {
+					color: #0ca3c6;
+					i.fa.fa-shopping-cart {
+						color: #0ca3c6;
+					}
+				}
+				&:hover {
+					color: #fff;
+				}
+			}
+		}
+	}
+	li.border-right {
+		>a {
+			border-right: 1px solid #131313;
+		}
+	}
+	li.border-left {
+		>a {
+			border-left: 1px solid #131313;
+		}
+	}
+	.navbar-left {
+		>li {
+			>a {
+				max-width: 200px;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;				
+			}
+		}
+	}
+	.navbar-right {
+		float: right !important;
+		margin-right: 0;
+		> li {
+			>a {
+				border-left: 1px solid #131313;
+			}
+		}
+	}
+	.lang-box {
+		width: 80px;
+		&.open {
+			.swipe-control {
+				display: none;
+			}
+			a.dropdown-toggle, .dropdown-menu>li>a {
+				color: #C3C3C3;
+			}
+		}
+		.dropdown-menu {
+			position: absolute !important;
+			background: #333 !important;
+			z-index: 99999 !important;
+			margin-top: 2px;
+			>li {
+				>a {
+					border-top: 1px solid #131313;
+					margin-top: -1px;
+					padding-top: 10px;
+					padding-bottom: 10px;
+					color: #C3C3C3;
+				}
+			}
+		}
+		a.dropdown-toggle {
+			background: #333 !important;
+			border-color: #131313 !important;
+			color: #C3C3C3;
+		}
+	}
+}
+
+a.swipe-control {
+	display: inline-block;
+	position: fixed;
+	top: 60px;
+	right: 0;
+	height: 50px;
+	vertical-align: top;
+	text-align: center;
+	width: 64px;
+	z-index: 99998;
+	i {
+		line-height: 50px;
+		font-size: 28px;
+		vertical-align: top;
+	}
+	&:hover {
+		i {
+		}
+	}
+}
+
+.swipe {
+	background-color: #333;
+	color: #fff;
+	display: block;
+	overflow: hidden;
+	position: fixed;
+	top: 50px;
+	width: 280px;
+	z-index: 101;
+	height: 100%;
+	left: -280px;
+	-webkit-transition: all 0.5s ease;
+	-moz-transition: all 0.5s ease;
+	-o-transition: all 0.5s ease;
+	transition: all 0.5s ease;
+	ul {
+		padding: 0;
+		margin: 0;
+		li {
+			list-style-type: none;
+			position: relative;
+			&.active {
+				a {
+					background-color: #4A4A4A;
+				}
+			}
+			a {
+				display: block;
+				padding: 10px 20px;
+				color: #dedede;
+				border-bottom: 1px solid #131313;
+				line-height: 25px;
+				font-size: 20px;
+				&:hover {
+					background-color: #4A4A4A;
+				}
+				i {
+					font-size: 21px;
+					line-height: 25px;
+					vertical-align: top;
+					margin-right: 5px;
+				}
+			}
+		}
+	}
+	.dropdown-menu {
+		background: #252525;
+		width: 100%;
+		li {
+			a {
+				padding-left: 30px;
+			}
+		}
+	} 
+	.swipe-menu {
+		height: 100%;
+		overflow: auto;
+	}
+}
+
+.ind .swipe {
+	display: block;
+	left: 0;
+}
+
+body.ind {
+	overflow: hidden;
+}

@@ -1,5 +1,8 @@
 package com.mit.dao.salary;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -12,6 +15,9 @@ import com.mit.dao.CommonDAO;
 import com.mit.dao.MongoDBParse;
 import com.mit.dao.mid.MIdGenLongDAO;
 import com.mit.entities.salary.JobShare;
+import com.mit.entities.salary.SalaryStatisticsType;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
@@ -60,6 +66,40 @@ public class JobShareDAO extends CommonDAO {
 		}
 
 		return comment;
+	}
+	
+	public List<Double> getAllInType(int type, Map<String, Object> params) {
+		List<Double> salary = Collections.emptyList();
+		if (dbSource != null) {
+			try {
+				Document objFinder = new Document();
+				if (type == SalaryStatisticsType.ALL.getValue()) {
+					objFinder.append("jobId", params.get("jobId"))
+						.append("yearExperience", params.get("yearExperience"))
+						.append("skillLevel", params.get("skillLevel"));
+				} else if (type == SalaryStatisticsType.JOB.getValue()) {
+					objFinder.append("jobId", params.get("jobId"));
+				} else if (type == SalaryStatisticsType.EXPERIENCE.getValue()) {
+					objFinder.append("yearExperience", params.get("yearExperience"));
+				} else if (type == SalaryStatisticsType.PLACE.getValue()) {
+					objFinder.append("city", params.get("city"))
+						.append("country", params.get("country"));
+				}
+				Document project = new Document("monthlySalary", 1);
+				Document sort = new Document("monthlySalary", 1);
+				FindIterable<Document> docs = dbSource.getCollection(TABLE_NAME).find(objFinder).projection(project).sort(sort);
+				if (docs != null) {
+					MongoCursor<Document> tmps = docs.iterator();
+					while (tmps.hasNext()) {
+						salary.add(tmps.next().getDouble("monthlySalary"));
+					}
+				}
+			} catch (final Exception e) {
+				_logger.error("getAllInType ", e);
+			}
+		}
+
+		return salary;
 	}
 
 	public int insert(JobShare msg) {
@@ -154,7 +194,7 @@ public class JobShareDAO extends CommonDAO {
 		@Override
 		public JobShare parseObject(Document doc) {
 			JobShare ss = new JobShare(doc.getLong("_id"), doc.getLong("jobCategoryId"), doc.getLong("jobId"), doc.getInteger("yearExperience"), 
-					doc.getString("skill"), doc.getInteger("skillLevel"), doc.getString("city"), doc.getString("country"), doc.getString("companyCountry"), 
+					doc.getString("skill"), doc.getInteger("skillLevel"), doc.getInteger("certificate"), doc.getString("city"), doc.getString("country"), doc.getString("companyCountry"), 
 					doc.getDouble("monthlySalary"), doc.getInteger("status"), doc.getDate("createTime").getTime(), doc.getDate("updateTime").getTime());
 			return ss;
 		}
@@ -167,6 +207,7 @@ public class JobShareDAO extends CommonDAO {
 					.append("yearExperience", obj.getYearExperience())
 					.append("skill", obj.getSkill())
 					.append("skillLevel", obj.getSkillLevel())
+					.append("certificate", obj.getCertificate())
 					.append("city", obj.getCity())
 					.append("country", obj.getCountry())
 					.append("companyCountry", obj.getCompanyCountry())

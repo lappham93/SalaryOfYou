@@ -1,5 +1,6 @@
 package com.mit.dao.salary;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -15,6 +16,7 @@ import com.mit.dao.mid.MIdGenLongDAO;
 import com.mit.entities.salary.AllSalaryStatistics;
 import com.mit.entities.salary.ExperienceSalaryStatistics;
 import com.mit.entities.salary.JobSalaryStatistics;
+import com.mit.entities.salary.JobShare;
 import com.mit.entities.salary.PlaceSalaryStatistics;
 import com.mit.entities.salary.SalaryStatistics;
 import com.mit.entities.salary.SalaryStatisticsType;
@@ -56,17 +58,8 @@ public class SalaryStatisticsDAO extends CommonDAO {
 		if (dbSource != null) {
 			try {
 				Document objFinder = new Document("type", type);
-				if (type == SalaryStatisticsType.ALL.getValue()) {
-					objFinder.append("jobId", params.get("jobId"))
-						.append("yearExperience", params.get("yearExperience"))
-						.append("skillLevel", params.get("skillLevel"));
-				} else if (type == SalaryStatisticsType.JOB.getValue()) {
-					objFinder.append("jobId", params.get("jobId"));
-				} else if (type == SalaryStatisticsType.EXPERIENCE.getValue()) {
-					objFinder.append("yearExperience", params.get("yearExperience"));
-				} else if (type == SalaryStatisticsType.PLACE.getValue()) {
-					objFinder.append("city", params.get("city"))
-						.append("country", params.get("country"));
+				for (String key : params.keySet()) {
+					objFinder.append(key, params.get(key));
 				}
 				Document doc = dbSource.getCollection(TABLE_NAME).find(objFinder).first();
 				if (doc != null) {
@@ -85,17 +78,8 @@ public class SalaryStatisticsDAO extends CommonDAO {
 		if (dbSource != null) {
 			try {
 				Document objFinder = new Document("type", type);
-				if (type == SalaryStatisticsType.ALL.getValue()) {
-					objFinder.append("jobId", params.get("jobId"))
-						.append("yearExperience", params.get("yearExperience"))
-						.append("skillLevel", params.get("skillLevel"));
-				} else if (type == SalaryStatisticsType.JOB.getValue()) {
-					objFinder.append("jobId", params.get("jobId"));
-				} else if (type == SalaryStatisticsType.EXPERIENCE.getValue()) {
-					objFinder.append("yearExperience", params.get("yearExperience"));
-				} else if (type == SalaryStatisticsType.PLACE.getValue()) {
-					objFinder.append("city", params.get("city"))
-						.append("country", params.get("country"));
+				for (String key : params.keySet()) {
+					objFinder.append(key, params.get(key));
 				}
 				Document doc = dbSource.getCollection(TABLE_NAME).find(objFinder).first();
 				if (doc != null) {
@@ -265,7 +249,24 @@ public class SalaryStatisticsDAO extends CommonDAO {
 
 			return doc;
 		}
-
+		
+	}
+	
+	public static Map<String, Object> buildParams(int type, JobShare jobShare) {
+		Map<String, Object> params = new HashMap<>();
+		if (type == SalaryStatisticsType.ALL.getValue()) {
+			params.put("jobId", jobShare.getJobId());
+			params.put("yearExperience", jobShare.getYearExperience());
+			params.put("skillLevel", jobShare.getSkillLevel());
+		} else if (type == SalaryStatisticsType.JOB.getValue()) {
+			params.put("jobId", jobShare.getJobId());
+		} else if (type == SalaryStatisticsType.EXPERIENCE.getValue()) {
+			params.put("yearExperience", jobShare.getYearExperience());
+		} else if (type == SalaryStatisticsType.PLACE.getValue()) {
+			params.put("city", jobShare.getCity());
+			params.put("country", jobShare.getCountry());
+		}
+		return params;
 	}
 
 }

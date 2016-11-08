@@ -16,11 +16,18 @@
 
 package com.mit.soy.site.handler;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.mit.entities.salary.JobShare;
+import com.mit.models.SalaryModel;
+import com.mit.models.StatisticsModel;
+import com.mit.utils.JsonUtils;
 
 import hapax.TemplateDataDictionary;
 
@@ -44,5 +51,16 @@ public class HomeHandler extends BaseHandler {
     }
 
     private void renderHome(TemplateDataDictionary dic, HttpServletRequest req, HttpServletResponse resp) {
+    }
+    
+    public static void shareSalary() {
+    	Map<String, Object> sj = SalaryModel.Instance.shareJob(1L, 1L, 2, "", "Ho Chi Minh", "Viet Nam", "US", 15);
+    	JobShare jobShare = (JobShare)sj.get("jobShare");
+    	Map<Integer, Double> salaryStat = StatisticsModel.Instance.getMeanSal(jobShare);
+    	System.out.println(JsonUtils.Instance.toJson(salaryStat));
+    }
+    
+    public static void main(String[] args) {
+    	shareSalary();
     }
 }

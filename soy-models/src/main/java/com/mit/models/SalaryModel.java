@@ -27,31 +27,13 @@ public class SalaryModel {
 		jobShare.setMonthlySalary(salary);
 		
 		int err = JobShareDAO.getInstance().insert(jobShare);
+		if (err >= 0) {
+			StatisticsModel.Instance.updateSalaryStatistic(jobShare);
+		}
 		rs.put("jobShare", jobShare);
 		rs.put("err", err);
 		
 		return rs;
-	}
-	
-	public Map<String, Object> getStatistics(long shareJobId) {
-		Map<String, Object> statistics = new HashMap<>();
-		int err = 0;
-		JobShare share = JobShareDAO.getInstance().getById(shareJobId);
-		if (share != null) {
-			double meanSalary = StatisticsModel.Instance.getMeanSal(share.getJobId(), share.getYearExperience(), share.getSkillLevel());
-			double jobMeanSalary = StatisticsModel.Instance.getMeanSal(share.getJobId());
-			double experienceMeanSalary = StatisticsModel.Instance.getMeanSal(share.getYearExperience());
-			double placeMeanSalary = StatisticsModel.Instance.getMeanSal(share.getCity(), share.getCountry());
-			statistics.put("allMS", meanSalary);
-			statistics.put("jobMS", jobMeanSalary);
-			statistics.put("experienceMS", experienceMeanSalary);
-			statistics.put("placeMS", placeMeanSalary);
-		} else {
-			err = -1;
-		}
-		statistics.put("err", err);
-		
-		return statistics;
 	}
 	
 }

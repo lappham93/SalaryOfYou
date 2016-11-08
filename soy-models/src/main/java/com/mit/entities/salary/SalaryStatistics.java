@@ -23,6 +23,11 @@ public abstract class SalaryStatistics {
 		this.createTime = createTime;
 		this.updateTime = updateTime;
 	}
+	
+	public double updateStatistics(double salary) {
+		this.mean = (this.mean * this.shareCount + salary) / (++this.shareCount);
+		return this.mean;
+	}
 
 	public long getId() {
 		return id;

@@ -6,7 +6,13 @@ import java.util.Map;
 
 import com.mit.dao.salary.JobShareDAO;
 import com.mit.dao.salary.SalaryStatisticsDAO;
+import com.mit.entities.salary.AllSalaryStatistics;
+import com.mit.entities.salary.ExperienceSalaryStatistics;
+import com.mit.entities.salary.JobSalaryStatistics;
+import com.mit.entities.salary.JobShare;
+import com.mit.entities.salary.PlaceSalaryStatistics;
 import com.mit.entities.salary.SalaryDistributor;
+import com.mit.entities.salary.SalaryStatistics;
 import com.mit.entities.salary.SalaryStatisticsType;
 
 public class StatisticsModel {
@@ -15,10 +21,39 @@ public class StatisticsModel {
 	
 	private StatisticsModel(){}
 	
-	public  double getMeanSal(Long jobId)  {
-		Map<String, Object> params = new HashMap<>();
-		params.put("jobId", jobId);
-		return SalaryStatisticsDAO.getInstance().getMeanSalaryByAttr(SalaryStatisticsType.JOB.getValue(), params);
+	public  Map<Integer, Double> getMeanSal(JobShare jobShare) {
+		Map<Integer, Double> result = new HashMap<>();
+		for (SalaryStatisticsType stype : SalaryStatisticsType.values()) {
+			int type = stype.getValue();
+			result.put(type, SalaryStatisticsDAO.getInstance().getMeanSalaryByAttr(type, SalaryStatisticsDAO.buildParams(type, jobShare)));
+		}
+		return result;
+	}
+	
+	public void updateSalaryStatistic(JobShare jobShare) {
+		for (SalaryStatisticsType stype : SalaryStatisticsType.values()) {
+			int type = stype.getValue();
+			SalaryStatistics ss = SalaryStatisticsDAO.getInstance().getByAttr(type, SalaryStatisticsDAO.buildParams(type, jobShare));
+			if (ss != null) {
+				ss.updateStatistics(jobShare.getMonthlySalary());
+				SalaryStatisticsDAO.getInstance().update(ss);
+			} else {
+				long now = System.currentTimeMillis();
+				if (type == SalaryStatisticsType.ALL.getValue()) {
+					ss = new AllSalaryStatistics(0L, jobShare.getJobId(), jobShare.getYearExperience(), jobShare.getSkillLevel(), 
+							jobShare.getMonthlySalary(), 1L, 1, now, now);
+				} else if (type == SalaryStatisticsType.EXPERIENCE.getValue()) {
+					ss = new ExperienceSalaryStatistics(0L, jobShare.getYearExperience(), jobShare.getMonthlySalary(), 1L, 1, now, now);
+				} else if (type == SalaryStatisticsType.JOB.getValue()) {
+					ss = new JobSalaryStatistics(0L, jobShare.getJobId(), jobShare.getMonthlySalary(), 1L, 1, now, now);
+				} else if (type == SalaryStatisticsType.PLACE.getValue()) {
+					ss = new PlaceSalaryStatistics(0L, jobShare.getCity(), jobShare.getCountry(), jobShare.getMonthlySalary(), 1L, 1, now, now);
+				}
+				if (ss != null) {
+					SalaryStatisticsDAO.getInstance().insert(ss);
+				}
+			}
+		}
 	}
 	
 	public long getDistributeSal(Long jobId, Map<Integer, SalaryDistributor> salDis) {
@@ -31,62 +66,6 @@ public class StatisticsModel {
 		return total;
 	}
 	
-	public double getMeanSal(Integer yearExperience) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("yearExperience", yearExperience);
-		return SalaryStatisticsDAO.getInstance().getMeanSalaryByAttr(SalaryStatisticsType.EXPERIENCE.getValue(), params);
-	}
-	
-	public long getDistributeSal(Integer yearExperience, Map<Integer, SalaryDistributor> salDis) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("yearExperience", yearExperience);
-		List<Double> salaries = JobShareDAO.getInstance().getAllInType(SalaryStatisticsType.JOB.getValue(), params);
-		salDis = HeuristicModel.Instance.getSalaryDistributor(salaries, DISTRIBUTE_LEVEL, 1L);
-		long total = salaries != null ? salaries.size() : 0;
-		
-		return total;
-	}
-	
-	public double getMeanSal(String city, String country) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("city", city);
-		params.put("country", country);
-		return SalaryStatisticsDAO.getInstance().getMeanSalaryByAttr(SalaryStatisticsType.PLACE.getValue(), params);
-	}
-	
-	public long getDistributeSal(String city, String country, Map<Integer, SalaryDistributor> salDis) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("city", city);
-		params.put("country", country);
-		List<Double> salaries = JobShareDAO.getInstance().getAllInType(SalaryStatisticsType.JOB.getValue(), params);
-		salDis = HeuristicModel.Instance.getSalaryDistributor(salaries, DISTRIBUTE_LEVEL, 1L);
-		long total = salaries != null ? salaries.size() : 0;
-		
-		return total;
-	}
-	
-	public double getMeanSal(long jobId, int yearExperience, int skillLevel) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("jobId", jobId);
-		params.put("yearExperience", yearExperience);
-		params.put("skillLevel", skillLevel);
-		return SalaryStatisticsDAO.getInstance().getMeanSalaryByAttr(SalaryStatisticsType.ALL.getValue(), params);
-	}
-	
-	public long getDistributeSal(long jobId, int yearExperience, int skillLevel, Map<Integer, SalaryDistributor> salDis) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("jobId", jobId);
-		params.put("yearExperience", yearExperience);
-		params.put("skillLevel", skillLevel);
-		List<Double> salaries = JobShareDAO.getInstance().getAllInType(SalaryStatisticsType.JOB.getValue(), params);
-		salDis = HeuristicModel.Instance.getSalaryDistributor(salaries, DISTRIBUTE_LEVEL, 1L);
-		long total = salaries != null ? salaries.size() : 0;
-		
-		return total;
-	}
-	
 	public static void main(String[] args) {
-//		Map<String, Object> rs = StatisticsModel.Instance.getDistributeSal(2);
-//		System.out.println(JsonUtils.Instance.toJson(rs));
 	}
 }

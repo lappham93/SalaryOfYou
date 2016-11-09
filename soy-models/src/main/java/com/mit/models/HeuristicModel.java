@@ -35,10 +35,12 @@ public class HeuristicModel {
 				double offset = (max - min) / level;
 				for (double eleSal : salary) {
 					for (int i = 1; i <= level; i++) {
-						if (eleSal < min + i * offset) {
+						if (eleSal >= min + (i-1) * offset && eleSal < min + i * offset) {
 							SalaryDistributor sd = rs.get(i - 1);
 							if (sd == null) {
 								sd = new SalaryDistributor();
+								sd.setSalaryStatisticsId(id);
+								sd.setLevel(i);
 								sd.setMaxRange(min + i * offset);
 								sd.setMinRange(min + (i -1) * offset);
 								rs.put(i-1, sd);

@@ -1,5 +1,6 @@
 package com.mit.dao.salary;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,6 @@ import com.mit.dao.CommonDAO;
 import com.mit.dao.MongoDBParse;
 import com.mit.dao.mid.MIdGenLongDAO;
 import com.mit.entities.salary.JobShare;
-import com.mit.entities.salary.SalaryStatisticsType;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.result.DeleteResult;
@@ -73,22 +73,14 @@ public class JobShareDAO extends CommonDAO {
 		if (dbSource != null) {
 			try {
 				Document objFinder = new Document();
-				if (type == SalaryStatisticsType.ALL.getValue()) {
-					objFinder.append("jobId", params.get("jobId"))
-						.append("yearExperience", params.get("yearExperience"))
-						.append("skillLevel", params.get("skillLevel"));
-				} else if (type == SalaryStatisticsType.JOB.getValue()) {
-					objFinder.append("jobId", params.get("jobId"));
-				} else if (type == SalaryStatisticsType.EXPERIENCE.getValue()) {
-					objFinder.append("yearExperience", params.get("yearExperience"));
-				} else if (type == SalaryStatisticsType.PLACE.getValue()) {
-					objFinder.append("city", params.get("city"))
-						.append("country", params.get("country"));
+				for (String key : params.keySet()) {
+					objFinder.append(key, params.get(key));
 				}
 				Document project = new Document("monthlySalary", 1);
 				Document sort = new Document("monthlySalary", 1);
 				FindIterable<Document> docs = dbSource.getCollection(TABLE_NAME).find(objFinder).projection(project).sort(sort);
 				if (docs != null) {
+					salary = new ArrayList<>();
 					MongoCursor<Document> tmps = docs.iterator();
 					while (tmps.hasNext()) {
 						salary.add(tmps.next().getDouble("monthlySalary"));

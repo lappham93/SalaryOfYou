@@ -56,14 +56,17 @@ public class StatisticsModel {
 		}
 	}
 	
-	public long getDistributeSal(Long jobId, Map<Integer, SalaryDistributor> salDis) {
-		Map<String, Object> params = new HashMap<>();
-		params.put("jobId", jobId);
-		List<Double> salaries = JobShareDAO.getInstance().getAllInType(SalaryStatisticsType.JOB.getValue(), params);
-		salDis = HeuristicModel.Instance.getSalaryDistributor(salaries, DISTRIBUTE_LEVEL, 1L);
-		long total = salaries != null ? salaries.size() : 0;
+	public Map<Integer, Map<Integer, SalaryDistributor>> getDistributeSal(JobShare jobShare) {
+		Map<Integer, Map<Integer, SalaryDistributor>> salDis = new HashMap<>();
+		for (SalaryStatisticsType stype : SalaryStatisticsType.values()) {
+			Map<String, Object> params = SalaryStatisticsDAO.buildParams(stype.getValue(), jobShare);
+			List<Double> salaries = JobShareDAO.getInstance().getAllInType(SalaryStatisticsType.JOB.getValue(), params);
+			SalaryStatistics ss = SalaryStatisticsDAO.getInstance().getByAttr(stype.getValue(), params);
+			Map<Integer, SalaryDistributor> sal = HeuristicModel.Instance.getSalaryDistributor(salaries, DISTRIBUTE_LEVEL, ss.getId());
+			salDis.put(stype.getValue(), sal);
+		}
 		
-		return total;
+		return salDis;
 	}
 	
 	public static void main(String[] args) {

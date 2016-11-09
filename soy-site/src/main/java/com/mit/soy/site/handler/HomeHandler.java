@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.mit.entities.salary.JobShare;
+import com.mit.entities.salary.SalaryDistributor;
 import com.mit.models.SalaryModel;
 import com.mit.models.StatisticsModel;
 import com.mit.utils.JsonUtils;
@@ -54,10 +55,15 @@ public class HomeHandler extends BaseHandler {
     }
     
     public static void shareSalary() {
-    	Map<String, Object> sj = SalaryModel.Instance.shareJob(1L, 1L, 2, "", "Ho Chi Minh", "Viet Nam", "US", 15);
-    	JobShare jobShare = (JobShare)sj.get("jobShare");
-    	Map<Integer, Double> salaryStat = StatisticsModel.Instance.getMeanSal(jobShare);
-    	System.out.println(JsonUtils.Instance.toJson(salaryStat));
+    	Map<String, Object> sj = SalaryModel.Instance.shareJob(1L, 1L, 1, "", "Ho Chi Minh", "Viet Nam", "Viet Nam", 12);
+    	int err = (int)sj.get("err");
+    	if (err >= 0) {
+	    	JobShare jobShare = (JobShare)sj.get("jobShare");
+	    	Map<Integer, Double> salaryStat = StatisticsModel.Instance.getMeanSal(jobShare);
+	    	Map<Integer, Map<Integer, SalaryDistributor>> salaryDis = StatisticsModel.Instance.getDistributeSal(jobShare);
+	    	System.out.println(JsonUtils.Instance.toJson(salaryStat));
+	    	System.out.println(JsonUtils.Instance.toJson(salaryDis));
+    	}
     }
     
     public static void main(String[] args) {

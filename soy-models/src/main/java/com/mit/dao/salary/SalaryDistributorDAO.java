@@ -95,7 +95,7 @@ public class SalaryDistributorDAO extends CommonDAO {
 		if (dbSource != null) {
 			try {
 				Calendar cal = Calendar.getInstance();
-				cal.set(Calendar.DATE, cal.get(Calendar.DATE) - 7);
+				cal.set(Calendar.DATE, cal.get(Calendar.DATE) - 0);
 				Document objFinder = new Document("salaryStatisticsId", salaryStatisticsId);
 				Document project =new Document("updateTime", 1);
 				Document doc = dbSource.getCollection(TABLE_NAME).find(objFinder).projection(project).first();
@@ -204,7 +204,7 @@ public class SalaryDistributorDAO extends CommonDAO {
 		@Override
 		public SalaryDistributor parseObject(Document doc) {
 			SalaryDistributor ss = new SalaryDistributor(doc.getLong("_id"), doc.getLong("salaryStatisticsId"), doc.getInteger("type"), doc.getInteger("level"),
-					doc.getDouble("maxRagne"), doc.getDouble("minRange"), doc.getDouble("max"), doc.getDouble("min"), doc.getDouble("mean"), doc.getLong("eleCount"),
+					doc.getDouble("maxRange"), doc.getDouble("minRange"), doc.getDouble("max"), doc.getDouble("min"), doc.getDouble("mean"), doc.getLong("eleCount"),
 					doc.getDate("createTime").getTime(), doc.getDate("updateTime").getTime());
 			
 			return ss;

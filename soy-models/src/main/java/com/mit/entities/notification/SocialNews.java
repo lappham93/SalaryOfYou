@@ -165,7 +165,7 @@ public class SocialNews extends News{
 
 		private UserView(SocialNews socialNews) {
 			super(socialNews);
-			this.fromUserIds = socialNews.getFromUserIds() != null ? socialNews.getFromUserIds() : Arrays.asList();
+			this.fromUserIds = (List<Long>) (socialNews.getFromUserIds() != null ? socialNews.getFromUserIds() : Arrays.asList());
 			fromUserNames = new ArrayList<>();
 			for (long userId : fromUserIds) {
 				UserInfo ui = UserInfoDAO.getInstance().getById((int)userId);

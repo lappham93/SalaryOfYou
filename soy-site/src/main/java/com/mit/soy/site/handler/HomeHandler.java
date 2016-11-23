@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.eclipsesource.json.JsonArray;
+import com.eclipsesource.json.JsonObject;
 import com.mit.entities.salary.JobShare;
 import com.mit.entities.salary.SalaryDistributor;
 import com.mit.models.SalaryModel;
@@ -52,6 +54,29 @@ public class HomeHandler extends BaseHandler {
     }
 
     private void renderHome(TemplateDataDictionary dic, HttpServletRequest req, HttpServletResponse resp) {
+    	Map<String, Object> sj = SalaryModel.Instance.shareJob(1L, 1L, 1, "", "Ho Chi Minh", "Viet Nam", "Viet Nam", 20);
+    	int err = (int)sj.get("err");
+    	if (err >= 0) {
+	    	JobShare jobShare = (JobShare)sj.get("jobShare");
+	    	Map<Integer, Double> salaryStat = StatisticsModel.Instance.getMeanSal(jobShare);
+	    	Map<Integer, Map<Integer, SalaryDistributor>> salaryDis = StatisticsModel.Instance.getDistributeSal(jobShare);
+	    	System.out.println(JsonUtils.Instance.toJson(salaryStat));
+	    	System.out.println(JsonUtils.Instance.toJson(salaryDis));
+	    	//render to view
+	    	for (int type : salaryDis.keySet()) {
+	    		JsonArray data = new JsonArray();
+	    		Map<Integer, SalaryDistributor> dis = salaryDis.get(type);
+	    		for (int i : dis.keySet()) {
+	    			JsonObject ele = new JsonObject();
+	    			SalaryDistributor aDis = dis.get(i);
+	    			ele.set("label", aDis.getMinRange() + "-" + aDis.getMaxRange());
+	    			ele.set("value", aDis.getEleCount());
+	    			data.add(ele);
+	    		}
+	    		dic.setVariable("DATA" + (type + 1), data.toString());
+	    		
+	    	}
+    	}
     }
     
     public static void shareSalary() {

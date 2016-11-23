@@ -61,7 +61,6 @@ public class MainApp {
         handler.addServletWithMapping(DenyHandler.class, "/web2/admin/deny");
         
         //MAPPING ==============================================================
-        
         ServletContextHandler h = new ServletContextHandler(ServletContextHandler.SESSIONS);
 		h.setServletHandler(handler);
         

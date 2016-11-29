@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: TinnyLe
+Built-By: PC
 Class-Path: lib/commons-lang3-3.4.jar lib/mit-jettyserver-1.0.0.jar li
  b/jetty-servlet-9.3.6.v20151106.jar lib/jetty-security-9.3.6.v2015110
  6.jar lib/jetty-server-9.3.6.v20151106.jar lib/javax.servlet-api-3.1.
@@ -40,7 +40,7 @@ Class-Path: lib/commons-lang3-3.4.jar lib/mit-jettyserver-1.0.0.jar li
  commons-csv-1.2.jar lib/mit-configuration-1.0.0.jar lib/commons-confi
  guration-1.9.jar lib/commons-lang-2.6.jar lib/commons-logging-1.1.1.j
  ar
-Build-Jdk: 1.8.0_65
+Build-Jdk: 1.8.0_101
 Created-By: Maven Integration for Eclipse
 Main-Class: com.mit.augusta.site.app.MainApp
 

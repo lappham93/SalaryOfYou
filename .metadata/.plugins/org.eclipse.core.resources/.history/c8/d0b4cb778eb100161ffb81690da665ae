@@ -1,0 +1,97 @@
+/*
+ * Copyright 2015 nghiatc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.mit.soy.site.handler;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.eclipsesource.json.JsonArray;
+import com.eclipsesource.json.JsonObject;
+import com.mit.entities.salary.JobShare;
+import com.mit.entities.salary.SalaryDistributor;
+import com.mit.models.SalaryModel;
+import com.mit.models.StatisticsModel;
+import com.mit.utils.JsonUtils;
+
+import hapax.TemplateDataDictionary;
+
+/**
+ * @author nghiatc
+ * @since Dec 18, 2015
+ */
+public class HomeHandler extends BaseHandler {
+    private static Logger logger = LoggerFactory.getLogger(HomeHandler.class);
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        try {
+            TemplateDataDictionary dic = getDictionary();
+            renderHome(dic, req, resp);
+            dic.setVariable("MAIN_CONTENT", applyTemplate(dic, "home.xtm", req));
+            print(applyTemplateLayoutMain(dic, req, resp), resp);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage(), ex);
+        }
+    }
+
+    private void renderHome(TemplateDataDictionary dic, HttpServletRequest req, HttpServletResponse resp) {
+    	Map<String, Object> sj = SalaryModel.Instance.shareJob(1L, 1L, 1, "", "Ho Chi Minh", "Viet Nam", "Viet Nam", 12);
+    	int err = (int)sj.get("err");
+    	if (err >= 0) {
+	    	JobShare jobShare = (JobShare)sj.get("jobShare");
+	    	Map<Integer, Double> salaryStat = StatisticsModel.Instance.getMeanSal(jobShare);
+	    	Map<Integer, Map<Integer, SalaryDistributor>> salaryDis = StatisticsModel.Instance.getDistributeSal(jobShare);
+	    	System.out.println(JsonUtils.Instance.toJson(salaryStat));
+	    	System.out.println(JsonUtils.Instance.toJson(salaryDis));
+	    	//render to view
+	    	for (int type : salaryDis.keySet()) {
+	    		JsonArray data = new JsonArray();
+	    		Map<Integer, SalaryDistributor> dis = salaryDis.get(type);
+	    		for (int i : dis.keySet()) {
+	    			JsonObject ele = new JsonObject();
+	    			SalaryDistributor aDis = dis.get(i);
+	    			ele.set("label", aDis.getMin() + "-" + aDis.getMax());
+	    			ele.set("value", aDis.getEleCount());
+	    			data.add(ele);
+	    		}
+	    		dic.setVariable("DATA" + (i + 1), data);
+	    		
+	    	}
+    	}
+    }
+    
+    public static void shareSalary() {
+    	Map<String, Object> sj = SalaryModel.Instance.shareJob(1L, 1L, 1, "", "Ho Chi Minh", "Viet Nam", "Viet Nam", 12);
+    	int err = (int)sj.get("err");
+    	if (err >= 0) {
+	    	JobShare jobShare = (JobShare)sj.get("jobShare");
+	    	Map<Integer, Double> salaryStat = StatisticsModel.Instance.getMeanSal(jobShare);
+	    	Map<Integer, Map<Integer, SalaryDistributor>> salaryDis = StatisticsModel.Instance.getDistributeSal(jobShare);
+	    	System.out.println(JsonUtils.Instance.toJson(salaryStat));
+	    	System.out.println(JsonUtils.Instance.toJson(salaryDis));
+    	}
+    }
+    
+    public static void main(String[] args) {
+    	shareSalary();
+    }
+}

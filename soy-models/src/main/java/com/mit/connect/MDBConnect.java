@@ -70,11 +70,13 @@ public class MDBConnect {
 
 		if(!servers.isEmpty()) {
 			String mongCredential = ConfigUtils.getConfig().getString(configName + ".mongodb.users");
-			String[] cred = mongCredential.split(";");
-			for(String c: cred) {
-				String[] usp = c.split(":");
-				if(usp.length >= 3) {
-					credential.add(MongoCredential.createCredential(usp[1], usp[0], usp[2].toCharArray()));
+			if (mongCredential != null){
+				String[] cred = mongCredential.split(";");
+				for(String c: cred) {
+					String[] usp = c.split(":");
+					if(usp.length >= 3) {
+						credential.add(MongoCredential.createCredential(usp[1], usp[0], usp[2].toCharArray()));
+					}
 				}
 			}
 

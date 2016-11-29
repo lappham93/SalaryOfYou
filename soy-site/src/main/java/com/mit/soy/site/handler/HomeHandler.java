@@ -26,8 +26,10 @@ import org.slf4j.LoggerFactory;
 
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
+import com.mit.dao.photo.PhotoType;
 import com.mit.entities.salary.JobShare;
 import com.mit.entities.salary.SalaryDistributor;
+import com.mit.entities.salary.SalaryStatisticsType;
 import com.mit.models.SalaryModel;
 import com.mit.models.StatisticsModel;
 import com.mit.utils.JsonUtils;
@@ -73,7 +75,17 @@ public class HomeHandler extends BaseHandler {
 	    			ele.set("value", aDis.getEleCount());
 	    			data.add(ele);
 	    		}
-	    		dic.setVariable("DATA" + (type + 1), data.toString());
+	    		String chartName = "";
+	    		if (type == SalaryStatisticsType.ALL.getValue()) {
+	    			chartName = "DATA1";
+	    		} else if (type == SalaryStatisticsType.EXPERIENCE.getValue()) {
+	    			chartName = "DATA2";
+	    		} else if (type == SalaryStatisticsType.JOB.getValue()) {
+	    			chartName = "DATA3";
+	    		} else if (type == SalaryStatisticsType.PLACE.getValue()) {
+	    			chartName = "DATA4";
+	    		}
+	    		dic.setVariable(chartName, data.toString());
 	    		
 	    	}
     	}

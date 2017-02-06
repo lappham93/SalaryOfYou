@@ -575,5 +575,21 @@ public class BaseHandler extends HttpServlet {
         Calendar cal = Calendar.getInstance();
         return dateFormat.format(cal.getTime());
     }
+    
+    public boolean validParams(HttpServletRequest req, List<String> params, JsonObject result) {
+    	boolean rs = true;
+    	if (params != null && !params.isEmpty()) {
+    		for (String param : params) {
+    			String value = req.getParameter(param);
+    			if (value == null || value.isEmpty()) {
+    				result.set("err", -1);
+    				result.set("msg", "Params invalid");
+    				rs = false;
+    				break;
+    			}
+    		}
+    	}
+    	return rs;
+    }
 
 }

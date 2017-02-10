@@ -72,14 +72,14 @@ public class BaseHandler extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) {
         try {
             //Nếu truy suất vào url public thì không cần authentication.
-            String subPath = req.getServletPath();
-            if (!Common.publicUrl.contains(subPath)) {
-                // Kiểm tra login.
-                if (!isLoggedIn(req, resp)) {
-                    resp.sendRedirect(Configuration.APP_DOMAIN + "/soy/login");
-                    return;
-                }
-            }
+//            String subPath = req.getServletPath();
+//            if (!Common.publicUrl.contains(subPath)) {
+//                // Kiểm tra login.
+//                if (!isLoggedIn(req, resp)) {
+//                    resp.sendRedirect(Configuration.APP_DOMAIN + "/soy/login");
+//                    return;
+//                }
+//            }
             
             /*
              * forward resquest

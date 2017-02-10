@@ -50,6 +50,7 @@ public class MainApp {
         //MAPPING ==============================================================
         //Web
         handler.addServletWithMapping(HomeHandler.class, "/");
+        handler.addServletWithMapping(HomeHandler.class, "/home");
 
         //MAPPING ==============================================================
 

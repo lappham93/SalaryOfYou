@@ -1,5 +1,6 @@
 package com.mit.dao.salary;
 
+import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -12,6 +13,7 @@ import com.mit.dao.CommonDAO;
 import com.mit.dao.MongoDBParse;
 import com.mit.dao.mid.MIdGenLongDAO;
 import com.mit.entities.salary.Job;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
@@ -60,6 +62,22 @@ public class JobDAO extends CommonDAO {
 		}
 
 		return comment;
+	}
+	
+	public List<Job> getListJob() {
+		List<Job> rs = null;
+		if (dbSource != null) {
+			try {
+				Document filter = new Document("status", new Document("$gt", 0));
+				FindIterable<Document> docs = dbSource.getCollection(TABLE_NAME).find(filter);
+				if (docs != null) {
+					rs = new MongoMapper().parseList(docs);
+				}
+			} catch (final Exception e) {
+				_logger.error("getListJob ", e);
+			}
+		}
+		return rs;
 	}
 
 	public int insert(Job msg) {

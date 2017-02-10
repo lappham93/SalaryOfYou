@@ -1,101 +1,164 @@
-<div class="col-xs-6" id="chart-container1">
-  FusionCharts will render here
+<div class="row">
+    <div class="col-xs-12">
+        <iframe id="if_Share" name="if_Share" style="display: none;width: 0px;height: 0px"></iframe>
+        <form id="frmShare" name="frmShare" class="form-horizontal" role="form" action="/home" method="POST" target="if_Share">
+            <div id="share_alert_success" class="alert alert-success" style="display: none;"></div>
+            <div id="share_alert_err" class="alert alert-danger" style="display: none;"></div>
+            
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-1-1">Job: </label>
+                <div class="col-xs-12 col-sm-9">
+                    <div class="col-xs-12 col-sm-5" style="margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px;">
+                        <select class="col-xs-12 col-sm-12" id="job" name="job" data-placeholder="Choose a job...">
+                            <option value=""> Choose a job... </option>
+                            {{#loop_option_job}}
+                            <option value="{{KEY}}">{{VALUE}}</option>
+                            {{/loop_option_job}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-1-1">Country: </label>
+                <div class="col-xs-12 col-sm-9">
+                    <div class="col-xs-12 col-sm-5" style="margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px;">
+                        <select class="col-xs-12 col-sm-12" id="country" name="country" data-placeholder="Choose a country...">
+                            <option value=""> Choose a country... </option>
+                            {{#loop_option_country}}
+                            <option value="{{KEY}}" selected>{{VALUE}}</option>
+                            {{/loop_option_country}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-1-1">City: </label>
+                <div class="col-xs-12 col-sm-9">
+                    <div class="col-xs-12 col-sm-5" style="margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px;">
+                        <select class="col-xs-12 col-sm-12" id="city" name="city" data-placeholder="Choose a city...">
+                            <option value=""> Choose a city... </option>
+                            {{#loop_option_city}}
+                            <option value="{{KEY}}">{{VALUE}}</option>
+                            {{/loop_option_city}}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">Year experiences: </label>
+                <div class="col-sm-9">
+                    <input type="number" id="yexperience" name="yexperience" placeholder="year expericences" class="col-xs-12 col-sm-5"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label no-padding-right" for="form-field-1">Salary: </label>
+                <div class="col-sm-9">
+                    <input type="number" id="salary" name="salary" placeholder="salary" class="col-xs-12 col-sm-5"/>
+                </div>
+            </div>
+            
+            <div class="clearfix">
+                <div class="col-md-offset-3 col-md-9">
+                    <button id="btnshare" class="btn btn-info" type="button" onclick="shareJob(); return false;"><i class="ace-icon fa fa-check bigger-110"></i>Share Job</button>
+                    &nbsp; &nbsp; &nbsp;
+                    <button class="btn" type="reset" onclick="resetShare(); return false;"><i class="ace-icon fa fa-undo bigger-110"></i>Reset</button>
+                </div>
+            </div>
+            <input type="hidden" id="action" name="action" value="sharejob"/>
+            <input type="hidden" id="callback" name="callback" value="completeShareJob"/>
+        </form>
+    </div>
 </div>
-<div class="col-xs-6" id="chart-container2">
-  FusionCharts will render here
-</div>
-<div class="col-xs-6" id="chart-container3">
-  FusionCharts will render here
-</div>
-<div class="col-xs-6" id="chart-container4">
-  FusionCharts will render here
+
+<div class="row">
+	<div class="col-xs-6" id="all-chart">
+	  	
+	</div>
+	<div class="col-xs-6" id="job-chart">
+	  	
+	</div>
+	<div class="col-xs-6" id="place-chart">
+	  	
+	</div>
+	<div class="col-xs-6" id="experience-chart">
+	 	
+	</div>
 </div>
 
 <script>
-	(function () {
-	    $("#chart-container1").insertFusionCharts({
-	        type: "column2d",
-	        width: "500",
-	        height: "300",
-	        dataFormat: "json",
-	        dataSource: {
-	            "chart": {
-	                "caption": "Monthly revenue",
-	                "subCaption": "Last Year",
-	                "xAxisName": "Month",
-	                "yAxisName": "Revenues",
-	                //Making the chart export enabled in various formats 
-	                "exportEnabled" :"1",
-	                "numberPrefix": "$",
-	                "theme": "fint"
-	            },
-	            
-	            "data": {{DATA1}}
-	        }
-	    });
-	    
-	    $("#chart-container2").insertFusionCharts({
-	        type: "column2d",
-	        width: "500",
-	        height: "300",
-	        dataFormat: "json",
-	        dataSource: {
-	            "chart": {
-	                "caption": "Monthly revenue",
-	                "subCaption": "Last Year",
-	                "xAxisName": "Month",
-	                "yAxisName": "Revenues",
-	                //Making the chart export enabled in various formats 
-	                "exportEnabled" :"1",
-	                "numberPrefix": "$",
-	                "theme": "fint"
-	            },
-	            
-	            "data": {{DATA2}}
-	        }
-	    });
-	    
-	    $("#chart-container3").insertFusionCharts({
-	        type: "column2d",
-	        width: "500",
-	        height: "300",
-	        dataFormat: "json",
-	        dataSource: {
-	            "chart": {
-	                "caption": "Monthly revenue",
-	                "subCaption": "Last Year",
-	                "xAxisName": "Month",
-	                "yAxisName": "Revenues",
-	                //Making the chart export enabled in various formats 
-	                "exportEnabled" :"1",
-	                "numberPrefix": "$",
-	                "theme": "fint"
-	            },
-	            
-	            "data": {{DATA3}}
-	        }
-	    });
-	    
-	    $("#chart-container4").insertFusionCharts({
-	        type: "column2d",
-	        width: "500",
-	        height: "300",
-	        dataFormat: "json",
-	        dataSource: {
-	            "chart": {
-	                "caption": "Monthly revenue",
-	                "subCaption": "Last Year",
-	                "xAxisName": "Month",
-	                "yAxisName": "Revenues",
-	                //Making the chart export enabled in various formats 
-	                "exportEnabled" :"1",
-	                "numberPrefix": "$",
-	                "theme": "fint"
-	            },
-	            
-	            "data": {{DATA4}}
-	        }
-	    });
+	jQuery(function ($) {
+		//drawnChart('all-chart', "All", "all", "salary", "share items", [{'label':'12.0-17.0','value':19},{'label':'17.0-22.0','value':2}]);
+	})
 	
-	}());
+	function drawnChart(chartEle, caption, subCaption, xName, yName, data) {
+	    $("#" + chartEle).insertFusionCharts({
+	        type: "column2d",
+	        width: "500",
+	        height: "300",
+	        dataFormat: "json",
+	        dataSource: {
+	            "chart": {
+	                "caption": caption,
+	                "subCaption": subCaption,
+	                "xAxisName": xName,
+	                "yAxisName": yName,
+	                //Making the chart export enabled in various formats 
+	                "exportEnabled" :"1",
+	                "numberPrefix": "",
+	                "theme": "fint"
+	            },
+	            
+	            "data": data
+	        }
+	    });
+    }
+	    
+	function resetShare() {
+	}
+	
+	function shareJob() {  
+		$('#share_alert_success').hide();
+		$('#share_alert_err').hide();
+		var err = '';
+		var job = $('#job').val();
+		if (job == '') {
+			err += 'Job required. ';
+		}
+		var country = $('#country').val();
+		if (country == '') {
+			err += 'Country required. ';
+		}
+		var city = $('#city').val();
+		if (city == '') {
+			err += 'City required. ';
+		}
+		var yexperience = $('#yexperience').val();
+		if (yexperience == '') {
+			err += 'Year experiences required. ';
+		}
+		var salary = $('#salary').val();
+		if (salary == '') {
+			err += 'Salary required. ';
+		}
+		
+		if (err == '') {
+			$('#btnShare').button('loading');
+			$('#frmShare').submit();
+		} else {
+			$('#share_alert_err').text(err);
+			$('#share_alert_err').show();
+		}
+	}
+	function completeShareJob(data) {
+		if (data.err >= 0) {
+			drawnChart('all-chart', "All", "all", "shares", "salary", data.data_all);
+			drawnChart('job-chart', "Job", "job", "shares", "salary", data.data_job);
+			drawnChart('place-chart', "Place", "place", "shares", "salary", data.data_place);
+			drawnChart('experience-chart', "Experience", "Experience", "shares", "salary", data.data_experience);
+		} else {
+			$('#share_alert_err').text(data.msg);
+			$('#share_alert_err').show();
+		}
+		$('#btnShare').button('reset');
+	}	
 </script>

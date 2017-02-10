@@ -31,6 +31,10 @@ import org.slf4j.LoggerFactory;
 
 import com.eclipsesource.json.JsonArray;
 import com.eclipsesource.json.JsonObject;
+import com.mit.dao.address.StateDAO;
+import com.mit.dao.salary.JobDAO;
+import com.mit.entities.address.State;
+import com.mit.entities.salary.Job;
 import com.mit.entities.salary.JobShare;
 import com.mit.entities.salary.SalaryDistributor;
 import com.mit.entities.salary.SalaryStatisticsType;
@@ -91,7 +95,7 @@ public class HomeHandler extends BaseHandler {
                 action = req.getParameter("action");
                 callback = req.getParameter("callback");
                 if(action != null && !action.isEmpty()) {
-                	if ("sharesalary".equalsIgnoreCase(action)) {
+                	if ("sharejob".equalsIgnoreCase(action)) {
                 		shareSalary(req, resp, result);
                 	}
                 } 
@@ -120,22 +124,42 @@ public class HomeHandler extends BaseHandler {
     }
 
     private void renderHome(TemplateDataDictionary dic, HttpServletRequest req, HttpServletResponse resp) {
-    	
+    	//render country, city
+		TemplateDataDictionary countryDic = dic.addSection("loop_option_country");
+		countryDic.setVariable("KEY", "VN");
+		countryDic.setVariable("VALUE", "Viet Nam");
+		List<State> states = StateDAO.getInstance().getListByCountry("VN");
+		for (State state : states) {
+			TemplateDataDictionary stateDic = dic.addSection("loop_option_city");
+			stateDic.setVariable("KEY", state.getName());
+			stateDic.setVariable("VALUE", state.getName());
+		}
+		//render Job
+		List<Job> jobs = JobDAO.getInstance().getListJob();
+		if (jobs != null) {
+			for (Job job : jobs) {
+				TemplateDataDictionary jobDic = dic.addSection("loop_option_job");
+				jobDic.setVariable("KEY", MIdNoise.enNoiseLId(job.getId()));
+				jobDic.setVariable("VALUE", job.getName());
+			}
+		}
     }
     
     private void shareSalary(HttpServletRequest req, HttpServletResponse resp, JsonObject result) {
-    	List<String> reParams = Arrays.asList("cate", "job", "yearExperiences", "skill", "city", "country", "companyCountry", "salary");
+    	List<String> reParams = Arrays.asList("job", "yexperience", "city", "country", "salary");
     	if (validParams(req, reParams, result)) {
-    		long categoryId = MIdNoise.deNoiseLId(req.getParameter("cate"));
-    		long jobId = MIdNoise.deNoiseLId("job");
-    		int yexperiences = NumberUtils.toInt(req.getParameter("yearExperiences"));
-    		String skill = req.getParameter("skill");
+//    		long categoryId = MIdNoise.deNoiseLId(req.getParameter("cate"));
+    		long jobId = MIdNoise.deNoiseLId(req.getParameter("job"));
+    		int yexperiences = NumberUtils.toInt(req.getParameter("yexperience"));
+//    		String skill = req.getParameter("skill");
+    		String skill = "";
     		String city = req.getParameter("city");
     		String country = req.getParameter("country");
-    		String companyCountry = req.getParameter("companyCountry");
+//    		String companyCountry = req.getParameter("companyCountry");
+    		String companyCountry = "";
     		double salary = NumberUtils.toDouble(req.getParameter("salary"));
     		
-	    	Map<String, Object> sj = SalaryModel.Instance.shareJob(categoryId, jobId, yexperiences, skill, city, country, companyCountry, salary);
+	    	Map<String, Object> sj = SalaryModel.Instance.shareJob(0l, jobId, yexperiences, skill, city, country, companyCountry, salary);
 	    	int err = (int)sj.get("err");
 	    	if (err >= 0) {
 		    	JobShare jobShare = (JobShare)sj.get("jobShare");
@@ -144,35 +168,27 @@ public class HomeHandler extends BaseHandler {
 		    	System.out.println(JsonUtils.Instance.toJson(salaryStat));
 		    	System.out.println(JsonUtils.Instance.toJson(salaryDis));
 		    	//render to view
-		    	JsonArray salariesJ = new JsonArray();
 		    	for (int type : salaryDis.keySet()) {
-		    		JsonObject salaryJ = new JsonObject();
-		    		JsonArray data = new JsonArray();
+		    		JsonArray salaryJ = new JsonArray();
 		    		Map<Integer, SalaryDistributor> dis = salaryDis.get(type);
 		    		for (int i : dis.keySet()) {
 		    			JsonObject ele = new JsonObject();
 		    			SalaryDistributor aDis = dis.get(i);
 		    			ele.set("label", aDis.getMinRange() + "-" + aDis.getMaxRange());
 		    			ele.set("value", aDis.getEleCount());
-		    			data.add(ele);
+		    			salaryJ.add(ele);
 		    		}
-		    		salaryJ.add("data", data);
-		    		String chartName = "";
 		    		if (type == SalaryStatisticsType.ALL.getValue()) {
-		    			chartName = "DATA1";
+		    			result.set("data_all", salaryJ);
 		    		} else if (type == SalaryStatisticsType.EXPERIENCE.getValue()) {
-		    			chartName = "DATA2";
+		    			result.set("data_experience", salaryJ);
 		    		} else if (type == SalaryStatisticsType.JOB.getValue()) {
-		    			chartName = "DATA3";
+		    			result.set("data_job", salaryJ);
 		    		} else if (type == SalaryStatisticsType.PLACE.getValue()) {
-		    			chartName = "DATA4";
+		    			result.set("data_place", salaryJ);
 		    		}
-		    		salaryJ.add("name", chartName);
-//		    		dic.setVariable(chartName, data.toString());
-		    		salariesJ.add(salaryJ);
 		    	}
 		    	result.set("err", 0);
-		    	result.set("salaries", salariesJ);
 	    	} else {
 	    		result.set("err", -1);
 	    		result.set("msg", "Server error. ");
@@ -193,6 +209,13 @@ public class HomeHandler extends BaseHandler {
     }
     
     public static void main(String[] args) {
-    	shareSalary();
+//    	shareSalary();
+    	double x = 1e8;
+    	double r1 = 0.0515;
+    	double r2 = 0.0585;
+    	double k1 = x * Math.pow(1 + r1 / 12, 6) - x;
+    	double k2 = x * r2 / 2;
+    	System.out.println(k1);
+    	System.out.println(k2);
     }
 }

@@ -60,7 +60,7 @@ public class StatisticsModel {
 		Map<Integer, Map<Integer, SalaryDistributor>> salDis = new HashMap<>();
 		for (SalaryStatisticsType stype : SalaryStatisticsType.values()) {
 			Map<String, Object> params = SalaryStatisticsDAO.buildParams(stype.getValue(), jobShare);
-			List<Double> salaries = JobShareDAO.getInstance().getAllInType(SalaryStatisticsType.JOB.getValue(), params);
+			List<Double> salaries = JobShareDAO.getInstance().getAllInType(stype.getValue(), params);
 			SalaryStatistics ss = SalaryStatisticsDAO.getInstance().getByAttr(stype.getValue(), params);
 			Map<Integer, SalaryDistributor> sal = HeuristicModel.Instance.getSalaryDistributor(salaries, DISTRIBUTE_LEVEL, ss.getId());
 			salDis.put(stype.getValue(), sal);
